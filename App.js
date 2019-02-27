@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Clipboard} from 'react-native';
+import {Platform, StyleSheet, Text, View, AsyncStorage} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -12,8 +12,10 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){ 
-    Clipboard.setString('TreinaWeb 123');
-    console.log(await Clipboard.getString())
+    await AsyncStorage.setItem('meuTexto', '123456 abc');
+    const value = await AsyncStorage.getItem('meuTexto');
+    AsyncStorage.removeItem('meuTexto')
+    AsyncStorage.clear()
   }
 
   
