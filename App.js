@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, NetInfo} from 'react-native';
+import {Platform, StyleSheet, Text, View, Clipboard} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -11,9 +11,9 @@ const instructions = Platform.select({
 
 export default class App extends Component{
 
-  async componentDidMount(){
-    const response = await NetInfo.getConnectionInfo();
-    console.log(response);
+  async componentDidMount(){ 
+    Clipboard.setString('TreinaWeb 123');
+    console.log(await Clipboard.getString())
   }
 
   
