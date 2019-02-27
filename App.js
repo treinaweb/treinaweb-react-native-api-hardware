@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-
-import fs, { moveFile, copyFile, unlink } from 'react-native-fs';
+import {Platform, StyleSheet, Text, View, BackHandler} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -14,14 +12,15 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){ 
-    const path = fs.DocumentDirectoryPath + '/text.txt';
-    await fs.writeFile(path, 'Texto dentro do arquivo', 'utf8');
-    const content = await fs.readFile(path, 'utf8');
-    console.log('arquivo:', content);
-
-    //fs.copyFile(path, fs.DocumentDirectoryPath + '/text2.txt')
-    //fs.moveFile(path, fs.DocumentDirectoryPath + '/text3.txt')
-    //fs.unlink(fs.DocumentDirectoryPath + '/text2.txt')
+    let counter = 1;
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      counter++;
+      console.log('123');
+      if(counter === 3){
+        BackHandler.exitApp();
+      }
+      return true;
+    })
   }
 
   
