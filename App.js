@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, BackHandler} from 'react-native';
+import {Platform, StyleSheet, Text, View, Keyboard, TextInput} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -12,15 +12,16 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){ 
-    let counter = 1;
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      counter++;
-      console.log('123');
-      if(counter === 3){
-        BackHandler.exitApp();
-      }
-      return true;
+    Keyboard.addListener('keyboardDidShow', () => {
+      console.log('apareceu');
+      Keyboard.dismiss();
     })
+
+    Keyboard.addListener('keyboardDidHide', () => {
+      console.log('sumiu');
+    })
+    
+    
   }
 
   
@@ -31,6 +32,7 @@ export default class App extends Component{
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
+        <TextInput />
       </View>
     );
   }
