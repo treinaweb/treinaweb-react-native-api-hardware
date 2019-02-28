@@ -12,7 +12,7 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){
-    console.log(333, NativeModules.MyText)
+    NativeModules.MyText.show('aaagg', console.log)
   }
 
 
