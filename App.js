@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, NativeModules } from 'react-native';
-
+import {Platform, StyleSheet, Text, View } from 'react-native';
+import MyText from './MyText';
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -12,7 +12,9 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){
-    NativeModules.MyText.show('aaagg', console.log)
+    MyText.show('TreinaWeb', (response) => {
+      console.log(response);
+    })
   }
 
 
