@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, AlertIOS, ActionSheetIOS } from 'react-native';
-
+import {Platform, StyleSheet, Text, View, Button, Image } from 'react-native';
+import { RNCamera } from 'react-native-camera';
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -11,35 +11,22 @@ const instructions = Platform.select({
 
 export default class App extends Component{
 
-  async componentDidMount(){
-    /*AlertIOS.prompt(
-      'meu titulo',
-      'uma mensagem',
-      [
-        {
-          text: 'Confirmar',
-          onPress: (texto) => console.log(texto)
-        }
-      ],
-      'secure-text',
-      '',
-      'number-pad'
-    )*/
+  state = {
+    img: ''
+  }
 
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ['Confirmar', 'Apagar', 'Cancelar'],
-        cancelButtonIndex: 2,
-        destructiveButtonIndex: 1
-      },
-      (buttonIndex) => {
-        console.log(buttonIndex);
-        if(buttonIndex === 0){
-          console.log('confirmou')
-        }
-      }
-    )
+  async componentDidMount(){
     
+    
+  }
+
+  async shot(){
+    if(this.camera){
+      const options = {quality: 0.5, base64: true};
+      const data = await this.camera.takePictureAsync(options);
+      this.setState({img: data.uri});
+      console.log(data);
+    }
   }
 
   
@@ -47,9 +34,18 @@ export default class App extends Component{
     
     return (
       <View style={styles.container}>
+        <Button title="Tirar Foto"
+           onPress={this.shot.bind(this)} />
+        <Image source={{uri: this.state.img}} style={{width: 100, height: 100}} />
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
+        <RNCamera
+          ref={ref => {this.camera = ref;}}
+          style={{height: 200, width: 200}}
+          type={RNCamera.Constants.Type.front}
+          flashMode={RNCamera.Constants.FlashMode.on}
+         />
       </View>
     );
   }
