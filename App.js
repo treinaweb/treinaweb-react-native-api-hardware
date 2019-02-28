@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Keyboard, TextInput} from 'react-native';
+import {Platform, StyleSheet, Text, View, Alert} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -12,16 +12,20 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){ 
-    Keyboard.addListener('keyboardDidShow', () => {
-      console.log('apareceu');
-      Keyboard.dismiss();
+    Alert.alert('Meu titulo', 'Minha mensagem', [
+      {
+        text: 'Cancelar',
+        onPress: () => console.log('o usuario cancelou')
+      },
+      {
+        text: 'Confirmar',
+        onPress: () => console.log('o usuario confirmou')
+      }
+    ],
+    {
+      onDismiss: () => console.log('o usuario fechou o alerta')
     })
 
-    Keyboard.addListener('keyboardDidHide', () => {
-      console.log('sumiu');
-    })
-    
-    
   }
 
   
@@ -32,7 +36,6 @@ export default class App extends Component{
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
-        <TextInput />
       </View>
     );
   }
