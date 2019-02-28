@@ -1,6 +1,13 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View } from 'react-native';
-
+import {
+  accelerometer,
+  gyroscope,
+  magnetometer,
+  barometer,
+  setUpdateIntervalForType,
+  SensorTypes
+} from 'react-native-sensors';
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -12,16 +19,17 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){
-    const {geolocation} = navigator;
-    geolocation.getCurrentPosition((response) => {
-      console.log(response);
-    })
+    setUpdateIntervalForType(SensorTypes.barometer, 1000);
 
-    /*const watchId = geolocation.watchPosition((response) => {
-      console.log(response);
-    })
+    barometer.subscribe(({pressure}) => {
+      console.log(pressure);
+    });
 
-    geolocation.clearWatch(watchId);*/
+    /*const subscription = accelerometer.subscribe(({ x, y, z, timestamp }) =>
+      console.log({ x, y, z, timestamp })
+    );*/
+
+    
   }
 
 
