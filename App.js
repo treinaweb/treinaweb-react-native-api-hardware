@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Image } from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, Image, CameraRoll } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -16,8 +16,11 @@ export default class App extends Component{
   }
 
   async componentDidMount(){
-    
-    
+    const response = await CameraRoll.getPhotos({
+      first: 10,
+      assetType: 'Photos'
+    });
+    console.log(response);
   }
 
   async shot(){
@@ -25,6 +28,7 @@ export default class App extends Component{
       const options = {quality: 0.5, base64: true};
       const data = await this.camera.takePictureAsync(options);
       this.setState({img: data.uri});
+      CameraRoll.saveToCameraRoll(data.uri);
       console.log(data);
     }
   }
