@@ -3,6 +3,7 @@ package com.myapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.rnfs.RNFSPackage;
 import cl.json.RNSharePackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ShareApplication,Rea
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
             new RNCameraPackage(),
             new RNFSPackage(),
             new RNSharePackage()
