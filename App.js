@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Alert} from 'react-native';
+import {Platform, StyleSheet, Text, View, ToastAndroid, TimePickerAndroid, DatePickerAndroid} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -12,19 +12,25 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){ 
-    Alert.alert('Meu titulo', 'Minha mensagem', [
-      {
-        text: 'Cancelar',
-        onPress: () => console.log('o usuario cancelou')
-      },
-      {
-        text: 'Confirmar',
-        onPress: () => console.log('o usuario confirmou')
-      }
-    ],
-    {
-      onDismiss: () => console.log('o usuario fechou o alerta')
+    ToastAndroid.showWithGravityAndOffset(
+      'Uma mensagem', 
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER,
+      50,
+      20
+    )
+
+    const {action, hour, minute} = await DatePickerAndroid.open({
+      hour: 14,
+      minute: 30,
+      is24Hour: false
     })
+    console.log(action, hour, minute);
+
+    const {action, year, month, day} = await DatePickerAndroid.open({
+      date: new Date(2020, 8, 3)
+    })
+    console.log(action, year, month, day);
 
   }
 
