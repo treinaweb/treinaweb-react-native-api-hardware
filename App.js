@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View } from 'react-native';
-import {
-  accelerometer,
-  gyroscope,
-  magnetometer,
-  barometer,
-  setUpdateIntervalForType,
-  SensorTypes
-} from 'react-native-sensors';
+import {Platform, StyleSheet, Text, View, NativeModules } from 'react-native';
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -19,17 +12,7 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){
-    setUpdateIntervalForType(SensorTypes.barometer, 1000);
-
-    barometer.subscribe(({pressure}) => {
-      console.log(pressure);
-    });
-
-    /*const subscription = accelerometer.subscribe(({ x, y, z, timestamp }) =>
-      console.log({ x, y, z, timestamp })
-    );*/
-
-    
+    console.log(333, NativeModules.MyText)
   }
 
 

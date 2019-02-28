@@ -14,6 +14,8 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
+import com.myapp.MyTextPackage;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +35,8 @@ public class MainApplication extends Application implements ShareApplication,Rea
             new ImagePickerPackage(),
             new RNCameraPackage(),
             new RNFSPackage(),
-            new RNSharePackage()
+            new RNSharePackage(),
+            new MyTextPackage()
       );
     }
 
