@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, ToastAndroid, TimePickerAndroid, DatePickerAndroid} from 'react-native';
+import {Platform, StyleSheet, Text, View, AlertIOS, ActionSheetIOS } from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -11,27 +11,35 @@ const instructions = Platform.select({
 
 export default class App extends Component{
 
-  async componentDidMount(){ 
-    ToastAndroid.showWithGravityAndOffset(
-      'Uma mensagem', 
-      ToastAndroid.SHORT,
-      ToastAndroid.CENTER,
-      50,
-      20
+  async componentDidMount(){
+    /*AlertIOS.prompt(
+      'meu titulo',
+      'uma mensagem',
+      [
+        {
+          text: 'Confirmar',
+          onPress: (texto) => console.log(texto)
+        }
+      ],
+      'secure-text',
+      '',
+      'number-pad'
+    )*/
+
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Confirmar', 'Apagar', 'Cancelar'],
+        cancelButtonIndex: 2,
+        destructiveButtonIndex: 1
+      },
+      (buttonIndex) => {
+        console.log(buttonIndex);
+        if(buttonIndex === 0){
+          console.log('confirmou')
+        }
+      }
     )
-
-    const {action, hour, minute} = await DatePickerAndroid.open({
-      hour: 14,
-      minute: 30,
-      is24Hour: false
-    })
-    console.log(action, hour, minute);
-
-    const {action, year, month, day} = await DatePickerAndroid.open({
-      date: new Date(2020, 8, 3)
-    })
-    console.log(action, year, month, day);
-
+    
   }
 
   
