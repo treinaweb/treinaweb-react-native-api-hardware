@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import { StyleSheet, View, Image, Modal, TouchableOpacity, Text, Button } from 'react-native';
+import { StyleSheet, View, Image, Modal, TouchableOpacity, Text, Button, Clipboard } from 'react-native';
+
+import {PictureService} from '../services/PictureService';
 
 class CameraDialog extends Component{
 
@@ -12,12 +14,20 @@ class CameraDialog extends Component{
         currentImage: 'http://www.daninoce.com.br/wp-content/uploads/2017/10/dani-noce-bolo-brigadeiro-morango-imagem-destaque.jpg'
     }
 
-    getImageFromClipboard = () => {
-
+    getImageFromClipboard = async () => {
+        const imageUrl = await Clipboard.getString(),
+            extensions = ['.png', '.jpg', '.jpeg'],
+            isImage = extensions.some(extension => imageUrl.toLowerCase().includes(extension));
+        if(isImage){
+            this.setState({
+                currentImage: imageUrl
+            })
+        }
     }
 
-    save = () => {
-        this.props.onClose();
+    save = async () => {
+        const result = await PictureService.save(this.state.currentImage);
+        this.props.onClose(result);
     }
 
     shot = () => {

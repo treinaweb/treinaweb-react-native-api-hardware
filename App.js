@@ -1,19 +1,21 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button} from 'react-native';
 
+import {StorageService} from './app/services/StorageService';
+
 import PictureList from './app/components/PictureList';
 import CameraDialog from './app/components/CameraDialog';
 
 export default class App extends Component {
 
   state = {
-    pictureList: [
-      {id: '1', url: 'http://www.daninoce.com.br/wp-content/uploads/2017/10/dani-noce-bolo-brigadeiro-morango-imagem-destaque.jpg'},
-      {id: '2', url: 'http://www.daninoce.com.br/wp-content/uploads/2017/10/dani-noce-bolo-brigadeiro-morango-imagem-destaque.jpg'},
-      {id: '3', url: 'http://www.daninoce.com.br/wp-content/uploads/2017/10/dani-noce-bolo-brigadeiro-morango-imagem-destaque.jpg'},
-      {id: '4', url: 'http://www.daninoce.com.br/wp-content/uploads/2017/10/dani-noce-bolo-brigadeiro-morango-imagem-destaque.jpg'}
-    ],
+    pictureList: [],
     isModalOpen: false
+  }
+
+  async componentDidMount(){
+    const pictureList = (await StorageService.get('pictureList') || []);
+    this.setState({pictureList});
   }
 
   onPictureSelect = (item) => {
@@ -25,7 +27,17 @@ export default class App extends Component {
   }
 
   closeModal = (response) => {
-    this.setState({isModalOpen: false});
+    const toUpdate = {
+      isModalOpen: false
+    }
+    if(typeof response === 'string'){
+      const newItem = {url: response, id: (Date.now()).toString()},
+        pictureList = [...this.state.pictureList, newItem];
+      toUpdate.pictureList = pictureList;
+      StorageService.set('pictureList', pictureList);
+    }
+
+    this.setState(toUpdate);
   }
 
   render() {
