@@ -30,7 +30,7 @@ function PictureListItem(props){
         {width} = Dimensions.get('window');
 
     return (
-        <TouchableHighlight onPress={() => {props.OnClick(item)}} >
+        <TouchableHighlight onPress={() => {props.onClick(item)}} >
             <Image source={{uri: item.url}}
                 style={{
                     width: width / 3 - 8,

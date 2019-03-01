@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button} from 'react-native';
 
 import {StorageService} from './app/services/StorageService';
+import { PictureService } from './app/services/PictureService';
 
 import PictureList from './app/components/PictureList';
 import CameraDialog from './app/components/CameraDialog';
@@ -19,7 +20,13 @@ export default class App extends Component {
   }
 
   onPictureSelect = (item) => {
+    PictureService.selectPicture(item, this.onRemove)
+  }
 
+  onRemove = async (item) => {
+    const pictureList = this.state.pictureList.filter(listItem => listItem.id !== item.id);
+    await StorageService.set('pictureList', pictureList);
+    this.setState({pictureList});
   }
 
   openModal = () => {
