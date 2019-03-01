@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Image, FlatList, TouchableHighlight} from 'react-native';
+import {View, Image, FlatList, TouchableHighlight, Dimensions} from 'react-native';
 
 
 class PictureList extends Component{
@@ -26,14 +26,16 @@ class PictureList extends Component{
 
 
 function PictureListItem(props){
-    const {item} = props;
+    const {item} = props,
+        {width} = Dimensions.get('window');
 
     return (
         <TouchableHighlight onPress={() => {props.OnClick(item)}} >
             <Image source={{uri: item.url}}
                 style={{
-                    width: 80,
-                    height: 80
+                    width: width / 3 - 8,
+                    height: width / 3 - 8,
+                    margin: 2
                 }}
              />
         </TouchableHighlight>
