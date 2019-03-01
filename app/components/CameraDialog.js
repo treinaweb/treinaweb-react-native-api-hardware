@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, View, Image, Modal, TouchableOpacity, Text, Button, Clipboard } from 'react-native';
-
+import {RNCamera} from 'react-native-camera';
 import {PictureService} from '../services/PictureService';
 
 class CameraDialog extends Component{
@@ -30,8 +30,12 @@ class CameraDialog extends Component{
         this.props.onClose(result);
     }
 
-    shot = () => {
-        
+    shot = async () => {
+        if(this.camera){
+            const options = {quality: 0.5, base64: true},
+                data = await this.camera.takePictureAsync(options);
+            this.setState({currentImage: data.uri});
+        }
     }
 
 
@@ -50,7 +54,16 @@ class CameraDialog extends Component{
                             <Text style={styles.closeButton}  >X</Text>
                         </TouchableOpacity>
                     </View>
-                    <View></View>
+                    <View style={styles.cameraContainer} >
+                        <RNCamera
+                            ref={ref => {
+                                this.camera = ref;
+                            }}
+                            style={styles.camera}
+                            type={RNCamera.Constants.Type.front}
+                            flashMode={RNCamera.Constants.FlashMode.on}
+                        />
+                    </View>
                     <View style={styles.buttonContainer}  >
                         <Button 
                             title="Salvar"
@@ -97,6 +110,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         fontSize: 20,
         color: 'white'
+    },
+    cameraContainer: {
+        flex: 1,
+        flexDirection: 'column'
+    },
+    camera: {
+        flex: 1,
+        height: 250,
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
     buttonContainer: {
         flexDirection: 'row',

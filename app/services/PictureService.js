@@ -1,14 +1,21 @@
-import {Alert} from 'react-native';
+import {Alert, CameraRoll} from 'react-native';
 import fs from 'react-native-fs';
 
 import {NetworkService} from './NetworkService';
 
 export const PictureService = {
     async save(filepath){
-        if(filepath.startsWith('http')){
+        if(filepath.startsWith('file:///')){
+            filepath = await PictureService.saveToCamera(filepath);
+        }else if(filepath.startsWith('http')){
             filepath = await PictureService.saveRemote(filepath);
+            filepath = await PictureService.save(filepath);
         }
         return filepath;
+    },
+    async saveToCamera(filepath){
+        const url = await CameraRoll.saveToCameraRoll(filepath, 'photo');
+        return url;
     },
     async saveRemote(fromUrl){
         const toFile = `${fs.DocumentDirectoryPath}/${Date.now()}.png`,
@@ -16,6 +23,7 @@ export const PictureService = {
             fromUrl,
             toFile
         });
+        await result.promise;
         return 'file://' + toFile;
     },
     selectPicture(item, onRemoveCallback){

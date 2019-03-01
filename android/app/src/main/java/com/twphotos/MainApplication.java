@@ -3,6 +3,7 @@ package com.twphotos;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.reactnative.camera.RNCameraPackage;
 import cl.json.RNSharePackage;
 import cl.json.ShareApplication;
 import com.rnfs.RNFSPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements  ShareApplication, R
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCameraPackage(),
             new RNSharePackage(),
             new RNFSPackage()
       );
