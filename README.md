@@ -1,5 +1,5 @@
 
-# TreinaWeb: curso ["React Native - Acesso às APIs de Hardware"](https://www.treinaweb.com.br/curso/)
+# TreinaWeb: curso ["React Native - Acesso às APIs de Hardware"](https://www.treinaweb.com.br/curso/react-native-acesso-as-apis-de-hardware)
 
 
 
